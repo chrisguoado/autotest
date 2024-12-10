@@ -1,0 +1,119 @@
+{
+  "workbench.editor.enablePreview": false,
+  "explorer.compactFolders": false,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  // "C_Cpp.updateChannel": "Insiders",
+  "search.exclude": {
+    "**/*.code-search": false,
+    "**/bower_components": false,
+    "**/dist": true
+  },
+  // "search.maintainFileSearchCache": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "files.watcherExclude": {
+    "**/node_modules/*/**": false
+  },
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  /*
+  "editor.codeActionsOnSave": [
+    "source.formatDocument",
+    "source.fixAll.eslint",
+    // "source.fixAll",
+  ],
+  */
+  "editor.codeActionsOnSave": {
+    "source.formatDocument": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "json",
+    "html",
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[http]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "python.languageServer": "Default",
+  "debug.allowBreakpointsEverywhere": true,
+  "[html]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    // "editor.defaultFormatter": "vscode.html-language-features"
+    // open Prettier output from the button on right bottom corner
+    // to check if any syntax issues, and fix all those issues first,
+    // otherwise prettier will not format your html doc:
+    // https://stackoverflow.com/questions/57907645/prettier-not-formatting-html-files-in-vs-code
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // This setting is overriden based on the file contents when `editor.detectIndentation` is on
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  // disable auto detection
+  "editor.detectIndentation": false,
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur",
+    // "editor.codeActionsOnSave": {
+    //   "source.fixAll.stylelint": false,
+    // }
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "json.maxItemsComputed": 50000,
+  "editor.foldingMaximumRegions": 65000,
+  // turn off Visual Studio Code's built-in CSS linter and 
+  // turn on the stylelint extension 
+  "stylelint.enable": true,
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "stylelint.validate": [
+    "css",
+    "scss",
+    "sass",
+    "less",
+    "postcss",
+    "vue",
+    "html",
+  ],
+  "liveServer.settings.port": 5505,
+  // "liveServer.settings.root": "/"
+  // to use the bundled version of Arduino CLI, arduino.useArduinoCli should 
+  // be true, and arduino.path and arduino.commandPath should be empty or unset. 
+  // arduino.useArduinoCli defaults to false
+  "arduino.useArduinoCli": true,
+  "arduino.logLevel": "verbose",
+  // "arduino.path": " C:\\Users\\[name]\\scoop\\apps\\arduino-cli\\0.21.1",
+  // "arduino.commandPath": "arduino-cli.exe",
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    },
+    "editor.renderWhitespace": "all",
+    "editor.snippetSuggestions": "top",
+    "editor.tabCompletion": "on",
+    "editor.acceptSuggestionOnEnter": "on",
+  },
+}
