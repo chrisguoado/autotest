@@ -130,7 +130,7 @@ The `run` function must return a `result` object as shown above. The parameters 
 
 In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory.
 
-In the run function, you can use a logging tool provided by `autotest` to output any logs you need at any point:
+You can use a logging tool provided by `autotest` to output any logs you need at any point:
 
 ```
 this.logger.debug(`case ${config.name}: login successfully`);
@@ -140,7 +140,7 @@ this.logger.info(`case ${config.name}: result validated`);
 this.logger.error(`case ${config.name}: failed to add device into the list`);
 ```
 
-In the run function, you can utilize any features of `Puppeteer` as well as some utilities that `autotest` has already prepared for you:
+You can utilize any features of `Puppeteer` as well as some utilities that `autotest` has already prepared for you:
 
 ```
 // navigate to an element indicated by selector 'input[placeholder="input your password"]',
