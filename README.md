@@ -143,22 +143,22 @@ this.logger.error(`case ${config.name}: failed to add device into the list`);
 In the run function, you can utilize any features of `Puppeteer` as well as some utilities that `autotest` has already prepared for you:
 
 ```
-// navigate to an element indicated by selector 'input[placeholder="请输入密码"]',
+// navigate to an element indicated by selector 'input[placeholder="input your password"]',
 // focus on it, and input somthing
-await input(page, 'input[placeholder="请输入密码"]', config.entries[0].auth.password)
+await input(page, 'input[placeholder="input your password"]', config.entries[0].auth.password)
 ```
 
 ```
 // navigate to an element indicated by selector 'xpath/......',
 // click on it,
 // wait for the route to switch and the new page to fully load.
-await click(page, `xpath/.//button[@type='button']/span/span[text()='登 录']`, true)
+await click(page, `xpath/.//button[@type='button']/span/span[text()='login']`, true)
 ```
 
 ```
 // navigate to an element indicated by selector 'xpath/......',
 // click on it, (this will not trigger a route change)
-await click(page, `xpath/.//span[text()='新增']`)
+await click(page, `xpath/.//span[text()='add']`)
 ```
 
 ```
