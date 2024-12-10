@@ -39,15 +39,15 @@ a few examples:
   $ node autotest.js
 ```  
 
-The -v option enables verbose mode, which is equivalent to setting `process.env.NODE_ENV="development"` during program execution. Alternatively, the same effect can be achieved by adding the following line to the `.env` file:
+The `-v` option enables verbose mode, which is equivalent to setting `process.env.NODE_ENV="development"` during program execution. Alternatively, the same effect can be achieved by adding the following line to the `.env` file:
 
 ```
 NODE_ENV='development'
 ```
 
-The -c option is used to specify the target test cases to run. All test cases must be located in the cases directory, which is at the same level as the autotest.js file. Each JavaScript file in this folder and its subdirectories is treated as a test case. These test cases can be categorized by test projects and organized into different subfolders, with no limit on the number of folder levels.
+The `-c` option is used to specify the target test cases to run. All test cases must be located in the cases directory, which is at the same level as the `autotest.js` file. Each JavaScript file in this folder and its subdirectories is treated as a test case. These test cases can be categorized by test projects and organized into different subfolders, with no limit on the number of folder levels.
 
-The -c option can specify either a folder, in which case all test cases in that folder and its subdirectories will be run recursively, or a single JavaScript file, in which case only the specified test case will be executed.
+The `-c` option can specify either a folder, in which case all test cases in that folder and its subdirectories will be run recursively, or a single JavaScript file, in which case only the specified test case will be executed.
 
 ### Configuration Files
 
