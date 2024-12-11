@@ -10,7 +10,7 @@ $ cd autotest
 $ npm run build
 ```
 
-The newly generated dist directory will be your working directory. Just follow the case example in dist/cases/sample to develop your own cases and place them in the dist/cases directory. Afterward, run the following commands to automatically execute all these cases:
+The newly generated `dist` directory will be your working directory. Just follow the case example in `dist/cases/sample` to develop your own cases and place them in the `dist/cases` directory. Afterward, run the following commands to automatically execute all these cases:
 
 ```
 $ cd dist
@@ -105,7 +105,7 @@ export const config = {
 };
 ```
 
-In this object, the properties `project`, `name`, `description`, and `entries` are mandatory, while the others are optional. The `entries` array must contain at least one item, and that item must include the `url` properties, which serves as the test entry point for the test case.
+In this object, the properties `project`, `name`, `description`, and `entries` are mandatory, while the others are optional. The `entries` array must contain at least one item, and that item must include the `url` property, which serves as the test entry point for the test case.
 
 Additionally, you need to define a `run` function with the following signature:
 
