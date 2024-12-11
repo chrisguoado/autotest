@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import { click, input } from '../../../common/util.js';
+import { click, input, query } from '../../../common/util.js';
 
 export const config = {
   project: 'my_test_project',
@@ -8,7 +8,7 @@ export const config = {
 
   deviceType: 'autotest-CleanRobot',
 
-  entries: [
+  entries: [    
     {
       url: 'https://your-server/your-url',
       auth: {
@@ -16,7 +16,7 @@ export const config = {
         password: 'your-password',
         captcha: 'fixd',
       },
-    },
+    },        
   ],
 };
 
@@ -155,24 +155,17 @@ export async function run(page, crawl, option) {
         `case ${config.name}: save the added device type successfully`
       );
 
-      // const [el] = await page.$$(
-      //  `xpath/.//tbody/tr:nth-child(1)/td:nth-child(2)/span[text()='${config.deviceType}']`
-      // );
-      const deviceType = await page
-        .$eval(
-          'tbody>tr:nth-child(1)>td:nth-child(2) span',
-          (item) => item.textContent
-        )
-        .catch((e) => '');
+      // query
+      await query(page, `xpath/.//span[text()='${config.deviceType}']`).catch(
+        (e) => {
+          throw new Error(`fail to verify the added device type`);
+        }
+      );
+      this.logger.debug(
+        `case ${config.name}: the newly added device type has been validated successfully`
+      );
+      result.case.status = 'PASS';
 
-      if (deviceType === config.deviceType) {
-        result.case.status = 'PASS';
-        this.logger.debug(
-          `case ${config.name}: the newly added device type has been validated successfully`
-        );
-      } else {
-        throw new Error(`fail to verify the added device type`);
-      }
       // case passed
     }
   } catch (e) {
