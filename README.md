@@ -7,6 +7,7 @@ Browser based automated testing framework
 ```
 $ git clone https://github.com/bruceon/autotest.git
 $ cd autotest
+$ npm install
 $ npm run build
 ```
 
