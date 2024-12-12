@@ -143,6 +143,7 @@ export async function run(page, crawl, option) {
     // the test logic for the dependent page
     ......
   }
+  ......
 }
 ```
 
