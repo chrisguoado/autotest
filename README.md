@@ -186,6 +186,9 @@ const deviceType = await page.$eval('tbody>tr:nth-child(1)>td:nth-child(2) span'
   (item) => item.textContent)
 ```
 
+### robots.txt
+Autotest uses a revised version of `headless-chrome-crawler` internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
+
 ## License
 
 MIT
