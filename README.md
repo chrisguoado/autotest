@@ -149,7 +149,7 @@ export async function run(page, crawl, option) {
 }
 ```
 
-In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory.
+In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory, or use the `this.utils` object, which contains several predefined tools, such as `this.utils.xlsx` (for building/parsing Excel files), `this.utils.page.click`/`this.utils.page.input`/`this.utils.page.query` (for page navigation and automation).
 
 You can use a logging tool provided by `autotest` to output any logs you need at any point:
 
