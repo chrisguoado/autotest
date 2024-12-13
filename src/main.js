@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import fs from 'fs-extra';
+import xlsx from 'node-xlsx';
 import HCCrawler from '../lib/js/crawler/index.js';
+import { click, input, query } from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
 import { createLogger, closeLoggers } from './logger.js';
 
@@ -192,6 +194,15 @@ async function main() {
       : null,
 
     logger,
+
+    utils: {
+      xlsx,
+      page: {
+        click,
+        input,
+        query,
+      },
+    },
   });
 
   /*

@@ -85,6 +85,7 @@
     "fs-extra": "^11.2.0",
     "jquery": "3.5.1",
     "lodash-es": "^4.17.21",
+    "node-xlsx": "^0.24.0",
     "nopt": "^8.0.0",
     "puppeteer": "^22.11.0",
     "request": "2.88.2",
