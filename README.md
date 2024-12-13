@@ -106,7 +106,7 @@ export const config = {
 };
 ```
 
-In this object, the properties `project`, `name`, `description`, and `entries` are mandatory, while the others are optional. The `entries` array must contain at least one item, and that item must include the `url` property, which serves as the test entry point for the test case.
+In this object, the properties `project`, `name`, `description`, and `entries` are mandatory, while the others are optional. The `entries` array must contain at least one item, and that item must include the `url` property, which serves as the test entry point for the test case. 
 
 Additionally, you need to define a `run` function with the following signature:
 
@@ -127,7 +127,25 @@ export async function run(page, crawl, option) {
 }
 ```
 
-The `run` function must return a `result` object as shown above. The parameters `page`, `crawl`, and `option` can be used to construct your test logic.
+The `run` function must return a `result` object as shown above. The parameters `page`, `crawl`, and `option` can be used to construct your test logic. If your case involves interactions across several pages, place the URL of your main entry page in `entries[0]`. After completing the logic for the main entry page, add the dependent page to the execution queue. An example of the `run` function in this situation would be as follows:
+```
+export async function run(page, crawl, option) {
+  ......
+  const cur = page.url();
+  if (cur.startsWith(config.entries[0].url)) {
+    // the test logic for the main entry page
+    ......
+    this.queue({
+      url: config.entries[1].url,
+      case: { ...config, run },
+    });
+  } else if (cur.startsWith(config.entries[1].url)){
+    // the test logic for the dependent page
+    ......
+  }
+  ......
+}
+```
 
 In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory.
 
@@ -167,6 +185,9 @@ await click(page, `xpath/.//span[text()='add']`)
 const deviceType = await page.$eval('tbody>tr:nth-child(1)>td:nth-child(2) span',
   (item) => item.textContent)
 ```
+
+### robots.txt
+Autotest uses a revised version of `headless-chrome-crawler` internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
 
 ## License
 
