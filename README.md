@@ -83,6 +83,8 @@ In such cases, you need to set the `browserPath` option to the correct installat
 browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
 ```
 
+The startMaximized option indicates whether to maximize the browser window upon launch, and the viewPort option is used to set the viewport for each page. 
+
 The directory structures in the IDE environment and the production environment are different. The `casesDir` option is used to inform the autotest framework which directory to retrieve test cases from in each environment. Keep it as is.
 
 The majority of the remaining options in `settings.js` are related to `logging`. They have been carefully tuned, so just keep them as they are.
