@@ -7,12 +7,22 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout the code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.20.5'
+
+    - name: Install dependencies and build
+      run: |
+        npm install
+        npm run build
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag autotest:$(date +%s)
