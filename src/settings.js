@@ -50,6 +50,14 @@ export default {
     headless: false,
     maxConcurrency: 10,
     // browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    startMaximized: true,
+    /*
+    viewPort: {
+      width: 1024,
+      height: 768,
+      deviceScaleFactor: 1,
+    },
+    */
     casesDir: process.env.NODE_ENV !== 'IDE' ? './cases' : './src/cases',
   },
 

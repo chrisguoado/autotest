@@ -83,6 +83,8 @@ In such cases, you need to set the `browserPath` option to the correct installat
 browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
 ```
 
+The `startMaximized` option indicates whether to maximize the browser window upon launch, and the `viewPort` option is used to set the viewport for each page. 
+
 The directory structures in the IDE environment and the production environment are different. The `casesDir` option is used to inform the autotest framework which directory to retrieve test cases from in each environment. Keep it as is.
 
 The majority of the remaining options in `settings.js` are related to `logging`. They have been carefully tuned, so just keep them as they are.
@@ -147,7 +149,7 @@ export async function run(page, crawl, option) {
 }
 ```
 
-In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory.
+In the `run` function, you can reference your own utility functions or code. Simply define these in the `common` directory, or use the `this.utils` object, which contains several predefined tools, such as `this.utils.xlsx` (for building/parsing Excel files), `this.utils.page.click`/`this.utils.page.input`/`this.utils.page.query` (for page navigation and automation).
 
 You can use a logging tool provided by `autotest` to output any logs you need at any point:
 
@@ -185,6 +187,9 @@ await click(page, `xpath/.//span[text()='add']`)
 const deviceType = await page.$eval('tbody>tr:nth-child(1)>td:nth-child(2) span',
   (item) => item.textContent)
 ```
+
+### robots.txt
+Autotest uses a revised version of `headless-chrome-crawler` internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
 
 ## License
 

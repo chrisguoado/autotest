@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import fs from 'fs-extra';
+import xlsx from 'node-xlsx';
 import HCCrawler from '../lib/js/crawler/index.js';
+import { click, input, query } from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
 import { createLogger, closeLoggers } from './logger.js';
 
@@ -92,14 +94,14 @@ async function consume(num) {
       // eslint-disable-next-line no-await-in-loop
       await crawler.queue({
         url: config.entries[0].url,
-        caseConfig: { ...config, run },
+        case: { ...config, run },
       });
     } else num = 0;
   }
 }
 
 export async function customCrawl(page, crawl, option) {
-  const result = await option.caseConfig.run.call(this, page, crawl, option);
+  const result = await option.case.run.call(this, page, crawl, option);
 
   await consume(1);
   return result;
@@ -156,12 +158,15 @@ async function main() {
     // different test cases may share the same url
     skipDuplicates: false,
     args: [
-      '--disable-dev-shm-usage',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      // '--headless',
-      '--disable-gpu',
-      '--disable-web-security',
+      ...[
+        '--disable-dev-shm-usage',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        // '--headless',
+        '--disable-gpu',
+        '--disable-web-security',
+      ],
+      ...(settings.autotest.startMaximized ? ['--start-maximized'] : []),
     ],
 
     // Function to be evaluated in browsers
@@ -184,7 +189,20 @@ async function main() {
       );
     },
 
+    defaultViewport: settings.autotest.viewPort
+      ? settings.autotest.viewPort
+      : null,
+
     logger,
+
+    utils: {
+      xlsx,
+      page: {
+        click,
+        input,
+        query,
+      },
+    },
   });
 
   /*
