@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import { click, input, query } from '../../../common/util.js';
+// import { click, input, query } from '../../../common/util.js';
 
 export const config = {
   project: 'my_test_project',
@@ -21,6 +21,8 @@ export const config = {
 };
 
 export async function run(page, crawl, option) {
+  const {click, query, input} = this.utils.page;
+  
   const result = {
     case: {
       project: config.project,
