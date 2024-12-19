@@ -45,6 +45,21 @@ if (options.help) help();
 const { verbose = false, case: cases = 'all' } = options;
 if (verbose) process.env.NODE_ENV = 'development';
 
+function traverseDir(dir) {
+  let files = [];
+
+  fs.readdirSync(dir).forEach((file) => {
+    const fullPath = path.join(dir, file).replaceAll('\\', '/');
+    if (fs.lstatSync(fullPath).isDirectory()) {
+      files = files.concat(traverseDir(fullPath));
+    } else {
+      files.push(fullPath);
+    }
+  });
+
+  return files;
+}
+
 async function scanCases(dir) {
   dir = dir.replaceAll('\\', '/');
   const isFile = (await fs.lstat(dir)).isFile();
@@ -58,6 +73,9 @@ async function scanCases(dir) {
     return [dir.startsWith('./') ? dir : `./${dir}`];
   }
 
+  // option withFileTypes and recursive are not compatible with older
+  // version of node.js
+  /*
   const files = (
     await fs.readdir(dir, {
       recursive: true,
@@ -74,6 +92,18 @@ async function scanCases(dir) {
       // add './' to the beginning to cope with the requirement of import()
       return fsPath.startsWith('./') ? fsPath : `./${fsPath}`;
     });
+  */
+
+  // remove the dependency of the readdir function on the withFileTypes
+  // and recursive options to downgrade the Node.js version requirement.
+  const files = traverseDir(dir).map((file) => {
+    // in IDE mode, fs.readDir's work dir is the root dir of the work
+    // space, but import()'s work dir is the current dir of the file
+    // being debugged. here is a workaround to bridge this gap.
+    const fsPath = file.replace(/(^src\/|^\.\/src\/)/g, '');
+    // add './' to the beginning to cope with the requirement of import()
+    return fsPath.startsWith('./') ? fsPath : `./${fsPath}`;
+  });
 
   return files;
 }
