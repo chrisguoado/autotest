@@ -67,7 +67,7 @@ autotest: {
 },
 ```
 
-The first configuration option, `headless`, determines whether to use silent mode when running the test cases. The autotest framework is built on top of `Puppeteer`. If headless is set to true, `Puppeteer` will run without launching the browser's graphical interface. Otherwise, the browser will be opened. During development and debugging of test cases, setting this option to `false` is beneficial as it allows us to see the entire execution process of the case. However, in a production environment, setting it to `true` improves the execution efficiency of the test cases and is also easier for integrating the autotest framework into the DevOps pipeline.
+The first configuration option, `headless`, determines whether to use silent mode when running the test cases. The autotest framework is built on top of [Puppeteer](https://github.com/puppeteer/puppeteer). If headless is set to true, `Puppeteer` will run without launching the browser's graphical interface. Otherwise, the browser will be opened. During development and debugging of test cases, setting this option to `false` is beneficial as it allows us to see the entire execution process of the case. However, in a production environment, setting it to `true` improves the execution efficiency of the test cases and is also easier for integrating the autotest framework into the DevOps pipeline.
 
 The `maxConcurrency` option specifies how many parallel page instances you intend to launch to handle your test cases. In theory, the larger this option is set, the higher the concurrency and efficiency of the testing process. However, this also depends on the resource limitations of the runtime environment and the robustness of the system under test. Generally, setting this option to `10` is appropriate. You can adjust this value based on the specific conditions of your environment.
 
@@ -189,7 +189,7 @@ const deviceType = await page.$eval('tbody>tr:nth-child(1)>td:nth-child(2) span'
 ```
 
 ### robots.txt
-Autotest uses a revised version of `headless-chrome-crawler` internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
+Autotest uses a revised version of [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler) internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
 
 ## License
 
