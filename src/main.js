@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'path';
 import fs from 'fs-extra';
 import xlsx from 'node-xlsx';
 import HCCrawler from '../lib/js/crawler/index.js';
@@ -79,23 +80,36 @@ async function scanCases(dir) {
 
 let testCases;
 let crawler;
+let logger;
 
 async function consume(num) {
   while (num--) {
     if (testCases.length) {
+      const casePath = testCases.shift();
       // import() only supports paths like './cases/xxx',
       // import not work for paths like 'cases/xxx'
       // eslint-disable-next-line no-await-in-loop
       const { run, config } = await import(
         // './cases/wansheng/device_type_management.js'
-        /* webpackIgnore: true */ testCases.shift()
-      );
-
-      // eslint-disable-next-line no-await-in-loop
-      await crawler.queue({
-        url: config.entries[0].url,
-        case: { ...config, run },
+        /* webpackIgnore: true */ casePath
+        // eslint-disable-next-line no-loop-func
+      ).catch((e) => {
+        logger.error(`failed to import case: ${casePath}`);
+        logger.error(`${e.message || e.stack}`);
+        const caseName = path.parse(path.basename(casePath)).name;
+        logger.error(
+          `project: undefined, test case: ${caseName}, test status: FAIL`
+        );
+        return {};
       });
+
+      if (run) {
+        // eslint-disable-next-line no-await-in-loop
+        await crawler.queue({
+          url: config.entries[0].url,
+          case: { ...config, run },
+        });
+      }
     } else num = 0;
   }
 }
@@ -120,7 +134,7 @@ async function main() {
     /* webpackIgnore: true */ './settings.js'
   );
 
-  const logger = createLogger({
+  logger = createLogger({
     ...settings.logOptions,
     name: 'autotest',
     label: 'autotest',
@@ -184,7 +198,7 @@ async function main() {
     // Function to be called with evaluated results from browsers
     // called when each url has been processed
     onFinish: (result) => {
-      logger.info(
+      (result.case.status === 'PASS' ? logger.info : logger.error)(
         `project: ${result.case.project}, test case: ${result.case.name}, test status: ${result.case.status}`
       );
     },
