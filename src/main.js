@@ -120,7 +120,7 @@ async function consume(num) {
       // import not work for paths like 'cases/xxx'
       // eslint-disable-next-line no-await-in-loop
       const { run, config } = await import(
-        // './cases/wansheng/device_type_management.js'
+        // './cases/sample/my_test_project/device_type_management.js'
         /* webpackIgnore: true */ casePath
         // eslint-disable-next-line no-loop-func
       ).catch((e) => {
