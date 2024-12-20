@@ -18,9 +18,9 @@ function help() {
   console.log(`  -v, --verbose        enable verbose output`);
   console.log(``);
   console.log(`a few examples:`);
+  console.log(`  $ node autotest.js`);
   console.log(`  $ node autotest.js -c cases/iot`);
   console.log(`  $ node autotest.js -v -c cases/iot/gateway_management.js`);
-  console.log(`  $ node autotest.js`);
 
   process.exit(1);
 }
@@ -124,6 +124,13 @@ async function consume(num) {
         /* webpackIgnore: true */ casePath
         // eslint-disable-next-line no-loop-func
       ).catch((e) => {
+        // fail the case immediately if not able to import it.
+        // However, in this situation, we have not yet been able to
+        // load the case file, so we cannot retrieve the exact project
+        // name and case name (which are contained in the config object
+        // of the case file). Therefore, we can only output a rough log
+        // message where the project is "undefined," and the case name
+        // is the name of the case file.
         logger.error(`failed to import case: ${casePath}`);
         logger.error(`${e.message || e.stack}`);
         const caseName = path.parse(path.basename(casePath)).name;
