@@ -129,5 +129,6 @@ export default {
     input,
     query,
     login,
+    topmost,
   },
 };
