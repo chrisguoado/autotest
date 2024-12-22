@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import xlsx from 'node-xlsx';
 import HCCrawler from '../lib/js/crawler/index.js';
-import { click, input, query } from './common/util.js';
+import utils from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
 import { createLogger, closeLoggers } from './logger.js';
 
@@ -120,7 +120,7 @@ async function consume(num) {
       // import not work for paths like 'cases/xxx'
       // eslint-disable-next-line no-await-in-loop
       const { run, config } = await import(
-        // './cases/sample/my_test_project/device_type_management.js'
+        // './cases/wansheng/device_type_management.js'
         /* webpackIgnore: true */ casePath
         // eslint-disable-next-line no-loop-func
       ).catch((e) => {
@@ -248,11 +248,7 @@ async function main() {
 
     utils: {
       xlsx,
-      page: {
-        click,
-        input,
-        query,
-      },
+      ...utils,
     },
   });
 

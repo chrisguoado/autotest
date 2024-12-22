@@ -21,7 +21,7 @@ export const config = {
 };
 
 export async function run(page, crawl, option) {
-  const {click, query, input} = this.utils.page;
+  const {click, query, input, login, topmost} = this.utils.page;
   
   const result = {
     case: {
