@@ -142,6 +142,8 @@ export async function run(page, crawl, option) {
 
       // create device type
       // await page.focus('input[type="text"]');
+      // a more specific selector alternative would be: 
+      //   'xpath/.//tbody/descendant::input'
       await input(page, 'input[placeholder=""]', config.deviceType).catch(
         (e) => {
           throw new Error(
