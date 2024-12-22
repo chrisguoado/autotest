@@ -48,6 +48,7 @@ function filter(info) {
 export default {
   autotest: {
     headless: false,
+    // at this moment, maxConcurrency has to be >= 2
     maxConcurrency: 10,
     // browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     startMaximized: true,
