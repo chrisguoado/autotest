@@ -10,7 +10,7 @@ export const config = {
 
   entries: [    
     {
-      url: 'https://your-server/your-url',
+      url: 'https://your-url',
       auth: {
         username: 'your-user',
         password: 'your-password',
@@ -53,7 +53,7 @@ export async function run(page, crawl, option) {
 
     const cur = page.url();
 
-    if (cur.startsWith('https://portal-newdev.center.org.cn/wsadmin/login')) {
+    if (cur.startsWith('https://your-url/login')) {
       // login in first
       await input(
         page,
@@ -96,7 +96,7 @@ export async function run(page, crawl, option) {
       this.logger.debug(`case ${config.name}: login successfully`);
     }
 
-    if (cur.startsWith('https://portal-newdev.center.org.cn')) {
+    if (cur.startsWith('https://your-url')) {
       // handle the test logic
       this.logger.debug(`case ${config.name}: test logic starts`);
 
