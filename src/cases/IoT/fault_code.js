@@ -43,9 +43,9 @@ export async function run(page, crawl, option) {
     );
 
     const cur = page.url();
+    const [entry] = config.entries;
 
-    if (cur.startsWith('https://your-url/login')) {
-      const [entry] = config.entries;
+    if (cur.startsWith(entry.login)) {
       await login({
         page,
         username: entry.auth.username,
@@ -60,7 +60,7 @@ export async function run(page, crawl, option) {
       this.logger.debug(`case ${config.name}: login`);
     }
 
-    if (cur.startsWith('https://your-url')) {
+    if (cur.startsWith(entry.url)) {
       // handle the test logic
       this.logger.debug(`case ${config.name}: test logic starts`);
 

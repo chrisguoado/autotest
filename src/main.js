@@ -193,7 +193,7 @@ async function main() {
     timeout: 0,
     waitUntil: 'networkidle2',
     // waitUntil: 'domcontentloaded',
-    waitFor: { selectorOrFunctionOrTimeout: 2000 },
+    waitFor: { selectorOrFunctionOrTimeout: 500 },
     // resolve a bug for
     //  async _setBypassCSP() {
     //    if (!this._options.jQuery) return;
