@@ -51,6 +51,7 @@ export default {
     maxConcurrency: 10,
     // browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     startMaximized: true,
+    incognito: false,
     /*
     viewPort: {
       width: 1024,
