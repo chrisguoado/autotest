@@ -48,8 +48,10 @@ function filter(info) {
 export default {
   autotest: {
     headless: false,
-    // at this moment, maxConcurrency has to be >= 2
-    maxConcurrency: 10,
+    // there is one about:blank tab should be kept for queue rolling, 
+    // so if you want to open 10 tabs for working, you have to set 
+    // maxConcurrency to 11
+    maxConcurrency: 11,
     // browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     startMaximized: true,
     incognito: false,
