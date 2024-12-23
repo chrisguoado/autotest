@@ -102,22 +102,27 @@ export async function login({
   selPass = 'input[placeholder="请输入密码"]',
   selCapt = 'input[placeholder="请输入验证码"]',
   selLogin = `xpath/.//button[@type='button']/span/span[text()='登 录']`,
+  selCaptImg = `xpath/.//div[contains(@class, 'code-img')]/img`,
 } = {}) {
   // login in first
   await input(page, selUser, username).catch((e) => {
-    throw new Error(`fail to type into element '${selUser}'`);
+    throw new Error(`fail to type into user input`);
   });
 
   await input(page, selPass, password).catch((e) => {
-    throw new Error(`fail to type into element '${selPass}'`);
+    throw new Error(`fail to type into password input`);
   });
 
-  await input(page, selCapt, captcha).catch((e) => {
-    throw new Error(`fail to type into element '${selCapt}'`);
-  });
+  if (captcha) {
+    await page.waitForSelector(`${selCaptImg}`);
+
+    await input(page, selCapt, captcha).catch((e) => {
+      throw new Error(`fail to type into captcha input '${selCapt}'`);
+    });
+  }
 
   await click(page, selLogin, true).catch((e) => {
-    throw new Error(`fail to click on button '${selLogin}'`);
+    throw new Error(`fail to click on login button`);
   });
 }
 
