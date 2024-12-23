@@ -33,15 +33,23 @@ export async function query(page, selector, hint = undefined, waitFor = true) {
 
 // parameter hint could be either a indicator for route
 // change, or a selector hint string, just like input()
-export async function click(page, selector, hint) {
+export async function click(
+  page,
+  selector,
+  hint,
+  waitForNavigation = false,
+  isHover = false
+) {
   let el;
-  let waitForNavigation = false;
 
   if (typeof hint === 'string' || hint instanceof String) {
     [el] = await query(page, hint);
     [el] = await query(el, selector);
   } else {
-    waitForNavigation = hint;
+    if (arguments.length === 3) {
+      isHover = waitForNavigation;
+      waitForNavigation = hint;
+    }
 
     if (typeof selector === 'string' || selector instanceof String)
       [el] = await query(page, selector);
@@ -57,19 +65,27 @@ export async function click(page, selector, hint) {
   }
 
   if (!waitForNavigation) {
-    await el.evaluate((item) => item.click());
-  } else {
+    await (isHover ? el.hover() : el.evaluate((item) => item.click()));
+  } else if (!isHover) {
+    // hover has nothing to do with navigation
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'networkidle2' }),
       el.evaluate((item) => item.click()),
     ]);
+  } else {
+    throw new Error('hover cannot work with waitForNavigation');
   }
 
   // handling a bug in old puppeteer, page.waitFor does not work well in old version
   // await page.waitFor(1000);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // !!! should wait for a specific element to be ready instead of using a generic sleep
+  if (!isHover) await new Promise((resolve) => setTimeout(resolve, 1000));
 
   return el;
+}
+
+export async function hover(page, selector, hint) {
+  await click(page, selector, hint, false, true);
 }
 
 export async function input(page, selector, content, hint) {
@@ -102,22 +118,27 @@ export async function login({
   selPass = 'input[placeholder="请输入密码"]',
   selCapt = 'input[placeholder="请输入验证码"]',
   selLogin = `xpath/.//button[@type='button']/span/span[text()='登 录']`,
+  selCaptImg = `xpath/.//div[contains(@class, 'code-img')]/img`,
 } = {}) {
   // login in first
   await input(page, selUser, username).catch((e) => {
-    throw new Error(`fail to type into element '${selUser}'`);
+    throw new Error(`fail to type into user input`);
   });
 
   await input(page, selPass, password).catch((e) => {
-    throw new Error(`fail to type into element '${selPass}'`);
+    throw new Error(`fail to type into password input`);
   });
 
-  await input(page, selCapt, captcha).catch((e) => {
-    throw new Error(`fail to type into element '${selCapt}'`);
-  });
+  if (captcha) {
+    await page.waitForSelector(`${selCaptImg}`);
+
+    await input(page, selCapt, captcha).catch((e) => {
+      throw new Error(`fail to type into captcha input '${selCapt}'`);
+    });
+  }
 
   await click(page, selLogin, true).catch((e) => {
-    throw new Error(`fail to click on button '${selLogin}'`);
+    throw new Error(`fail to click on login button`);
   });
 }
 
@@ -210,5 +231,6 @@ export default {
     login,
     topmost,
     dropdown,
+    hover,
   },
 };

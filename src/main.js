@@ -208,6 +208,8 @@ async function main() {
       : 10,
     // different test cases may share the same url
     skipDuplicates: false,
+    // number of retry if failing to crawling a page
+    retryCount: settings?.autotest?.retryCount || 0,
     args: [
       ...[
         '--disable-dev-shm-usage',
