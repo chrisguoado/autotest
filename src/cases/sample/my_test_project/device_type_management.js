@@ -21,7 +21,7 @@ export const config = {
 };
 
 export async function run(page, crawl, option) {
-  const {click, query, input, login, topmost} = this.utils.page;
+  const {click, query, input, login, topmost, sleep} = this.utils.page;
   
   const result = {
     case: {
@@ -131,6 +131,8 @@ export async function run(page, crawl, option) {
         `case ${config.name}: navigate to menu 设备类型管理 successfully`
       );
 
+      await sleep(3000);
+      
       await click(page, `xpath/.//span[text()='新增']`).catch((e) => {
         throw new Error(`failed to click on button '新增'`);
       });
@@ -140,6 +142,8 @@ export async function run(page, crawl, option) {
 
       // create device type
       // await page.focus('input[type="text"]');
+      // a more specific selector alternative would be: 
+      //   'xpath/.//tbody/descendant::input'
       await input(page, 'input[placeholder=""]', config.deviceType).catch(
         (e) => {
           throw new Error(

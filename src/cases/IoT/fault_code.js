@@ -363,6 +363,95 @@ export async function run(page, crawl, option) {
         `case ${config.name}: navigate and click on button 取消`
       );
 
+      // clean up
+      await click(page, `xpath/.//span[text()='报警管理']`).catch((e) => {
+        throw new Error(`fail to navigate to menu 报警管理`);
+      });
+      this.logger.debug(`case ${config.name}: navigate to menu 报警管理`);
+
+      await click(page, `xpath/.//span[text()='报警规则']`).catch((e) => {
+        throw new Error(`fail to navigate to menu 报警规则`);
+      });
+      this.logger.debug(`case ${config.name}: navigate to menu 报警规则`);
+
+      [tr] = await query(
+        page,
+        `xpath/.//span[text()='${config.ruleName}']/ancestor::tr`
+      ).catch((e) => {
+        throw new Error(`fail to find the rule`);
+      });
+      this.logger.debug(`case ${config.name}: find the rule`);
+
+      await click(
+        tr,
+        `xpath/.//div[contains(@class, 'el-switch__action')]`
+      ).catch((e) => {
+        throw new Error(`fail to navigate and click to switch off 启动`);
+      });
+      this.logger.debug(
+        `case ${config.name}: navigate and click to switch off 启用`
+      );
+
+      await click(
+        page,
+        `xpath/.//span[contains(., '确定')]`,
+        `xpath/.//div[contains(@class, 'is-message-box')]`
+      ).catch((e) => {
+        throw new Error(`fail to click on 确定`);
+      });
+      this.logger.debug(`case ${config.name}: click on 确定`);
+
+      await click(
+        tr,
+        // `xpath/.//div[contains(., '删除')]`,
+        // `xpath/.//div[contains(@class, 'operation-column')]`
+        `xpath/.//div[contains(@class, 'dt-table-operation-button') and contains(., '删除')]`
+      ).catch((e) => {
+        throw new Error(`fail to click on 删除`);
+      });
+      this.logger.debug(`case ${config.name}: click on 删除`);
+
+      await click(
+        page,
+        `xpath/.//span[contains(., '确定')]`,
+        `xpath/.//div[contains(@class, 'is-message-box')]`
+      ).catch((e) => {
+        throw new Error(`fail to click on 确定`);
+      });
+      this.logger.debug(`case ${config.name}: click on 确定`);
+
+      await click(page, `xpath/.//span[text()='故障码管理']`).catch((e) => {
+        throw new Error(`fail to navigate to menu 故障码管理`);
+      });
+      this.logger.debug(`case ${config.name}: navigate to menu 故障码管理`);
+
+      [tr] = await query(
+        page,
+        `xpath/.//span[text()='${config.faultCode}']/ancestor::tr`
+      ).catch((e) => {
+        throw new Error(`fail to find the added record`);
+      });
+      this.logger.debug(`case ${config.name}: find the added record`);
+
+      await click(
+        tr,
+        `xpath/.//div[contains(@class, 'dt-table-operation-button') and contains(., '删除')]`
+      ).catch((e) => {
+        throw new Error(`fail to navigate and click on 删除`);
+      });
+      this.logger.debug(
+        `case ${config.name}: navigate and click on button 删除`
+      );
+
+      await click(
+        page,
+        `xpath/.//span[contains(., '确定')]`,
+        `xpath/.//div[contains(@class, 'is-message-box')]`
+      ).catch((e) => {
+        throw new Error(`fail to click on 确定`);
+      });
+      this.logger.debug(`case ${config.name}: click on 确定`);
+
       result.case.status = 'PASS';
 
       // case passed

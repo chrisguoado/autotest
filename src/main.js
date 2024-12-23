@@ -218,6 +218,7 @@ async function main() {
         '--disable-web-security',
       ],
       ...(settings.autotest.startMaximized ? ['--start-maximized'] : []),
+      ...(settings.autotest.incognito ? ['--incognito'] : []),
     ],
 
     // Function to be evaluated in browsers
@@ -259,7 +260,11 @@ async function main() {
   });
   */
 
-  await consume(settings?.autotest?.maxConcurrency || 1);
+  await consume(
+    settings?.autotest?.maxConcurrency && settings.autotest.maxConcurrency > 1
+      ? settings.autotest.maxConcurrency - 1
+      : 1
+  );
   await crawler.onIdle();
   await crawler.close();
 
