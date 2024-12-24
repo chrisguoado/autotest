@@ -2,6 +2,7 @@ import 'dotenv/config';
 import path from 'path';
 import fs from 'fs-extra';
 import xlsx from 'node-xlsx';
+import puppeteer from 'puppeteer';
 import HCCrawler from '../lib/js/crawler/index.js';
 import utils from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
@@ -186,7 +187,8 @@ async function main() {
 
   crawler = await HCCrawler.launch({
     // if undefined, the internal chromium will be used by default
-    executablePath: settings?.autotest?.browserPath,
+    executablePath:
+      settings?.autotest?.browserPath || puppeteer.executablePath(),
     headless: settings?.autotest?.headless || false,
     // slowMo: 10,
     ignoreHTTPSErrors: true,
