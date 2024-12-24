@@ -220,7 +220,8 @@ async function main() {
         '--disable-web-security',
       ],
       ...(settings.autotest.startMaximized ? ['--start-maximized'] : []),
-      ...(settings.autotest.incognito ? ['--incognito'] : []),
+      // ...(settings.autotest.incognito ? ['--incognito'] : []),
+      ...(settings.autotest.tempProfile ? ['--temp-profile'] : []),
     ],
 
     // Function to be evaluated in browsers
