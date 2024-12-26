@@ -2,6 +2,7 @@ import 'dotenv/config';
 import path from 'path';
 import fs from 'fs-extra';
 import xlsx from 'node-xlsx';
+import puppeteer from 'puppeteer';
 import HCCrawler from '../lib/js/crawler/index.js';
 import utils from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
@@ -52,7 +53,7 @@ function traverseDir(dir) {
     const fullPath = path.join(dir, file).replaceAll('\\', '/');
     if (fs.lstatSync(fullPath).isDirectory()) {
       files = files.concat(traverseDir(fullPath));
-    } else {
+    } else if (['.js', '.cjs', '.mjs'].includes(path.extname(fullPath))) {
       files.push(fullPath);
     }
   });
@@ -64,7 +65,7 @@ async function scanCases(dir) {
   dir = dir.replaceAll('\\', '/');
   const isFile = (await fs.lstat(dir)).isFile();
 
-  if (isFile) {
+  if (isFile && ['.js', '.cjs', '.mjs'].includes(path.extname(dir))) {
     // remove the 'src/' or './src/' prefix which is necessary for
     // fs.lstat or fs.readdir (based on project's root dir) in IDE
     // env, but is not needed for import() (based on the current js
@@ -186,7 +187,8 @@ async function main() {
 
   crawler = await HCCrawler.launch({
     // if undefined, the internal chromium will be used by default
-    executablePath: settings?.autotest?.browserPath,
+    executablePath:
+      settings?.autotest?.browserPath || puppeteer.executablePath(),
     headless: settings?.autotest?.headless || false,
     // slowMo: 10,
     ignoreHTTPSErrors: true,
@@ -220,7 +222,8 @@ async function main() {
         '--disable-web-security',
       ],
       ...(settings.autotest.startMaximized ? ['--start-maximized'] : []),
-      ...(settings.autotest.incognito ? ['--incognito'] : []),
+      // ...(settings.autotest.incognito ? ['--incognito'] : []),
+      ...(settings.autotest.tempProfile ? ['--temp-profile'] : []),
     ],
 
     // Function to be evaluated in browsers

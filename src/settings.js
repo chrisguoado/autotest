@@ -57,7 +57,7 @@ export default {
     retryCount: 0,
     // browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     startMaximized: true,
-    incognito: false,
+    tempProfile: false,
     /*
     viewPort: {
       width: 1024,
