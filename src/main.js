@@ -53,7 +53,7 @@ function traverseDir(dir) {
     const fullPath = path.join(dir, file).replaceAll('\\', '/');
     if (fs.lstatSync(fullPath).isDirectory()) {
       files = files.concat(traverseDir(fullPath));
-    } else {
+    } else if (['.js', '.cjs', '.mjs'].includes(path.extname(fullPath))) {
       files.push(fullPath);
     }
   });
@@ -65,7 +65,7 @@ async function scanCases(dir) {
   dir = dir.replaceAll('\\', '/');
   const isFile = (await fs.lstat(dir)).isFile();
 
-  if (isFile) {
+  if (isFile && ['.js', '.cjs', '.mjs'].includes(path.extname(dir))) {
     // remove the 'src/' or './src/' prefix which is necessary for
     // fs.lstat or fs.readdir (based on project's root dir) in IDE
     // env, but is not needed for import() (based on the current js
