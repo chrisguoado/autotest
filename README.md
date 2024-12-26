@@ -191,6 +191,11 @@ const deviceType = await page.$eval('tbody>tr:nth-child(1)>td:nth-child(2) span'
 ### robots.txt
 Autotest uses a revised version of [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler) internally, which obeys `robots.txt`. Therefore, if the system under test employs a robots.txt file, please configure it to allow everything to ensure a smooth testing process.
 
+### VSCode Extensions
+Before debugging or modifying code in VSCode, please ensure the following two extensions are installed:
+- [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
 ## License
 
 MIT
