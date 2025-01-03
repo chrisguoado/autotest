@@ -141,12 +141,34 @@ async function consume(num) {
         return {};
       });
 
+      if (!run || !config || !config.entries?.[0]?.url) {
+        logger.error(
+          `failed to import case: ${casePath}, missing run(), config object or entry url`
+        );
+        const caseName = path.parse(path.basename(casePath)).name;
+        logger.error(
+          `project: undefined, test case: ${caseName}, test status: FAIL`
+        );
+      }
+
       if (run) {
         // eslint-disable-next-line no-await-in-loop
-        await crawler.queue({
-          url: config.entries[0].url,
-          case: { ...config, run },
-        });
+        await crawler
+          .queue({
+            url: config.entries[0].url,
+            case: { ...config, run },
+          })
+          // eslint-disable-next-line no-loop-func
+          .catch((e) => {
+            logger.error(`failed to enqueue case: ${casePath}`);
+            logger.error(`${e.message || e.stack}`);
+            const caseProject = config.project || 'undefined';
+            const caseName =
+              config.name || path.parse(path.basename(casePath)).name;
+            logger.error(
+              `project: ${caseProject}, test case: ${caseName}, test status: FAIL`
+            );
+          });
       }
     } else num = 0;
   }
