@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import xlsx from 'node-xlsx';
 import puppeteer from 'puppeteer';
+import { StringDecoder } from 'string_decoder';
 import HCCrawler from '../lib/js/crawler/index.js';
 import utils from './common/util.js';
 import nopt from '../lib/js/util/nopt.js';
@@ -149,9 +150,7 @@ async function consume(num) {
         logger.error(
           `project: undefined, test case: ${caseName}, test status: FAIL`
         );
-      }
-
-      if (run) {
+      } else {
         // eslint-disable-next-line no-await-in-loop
         await crawler
           .queue({
