@@ -149,9 +149,7 @@ async function consume(num) {
         logger.error(
           `project: undefined, test case: ${caseName}, test status: FAIL`
         );
-      }
-
-      if (run) {
+      } else {
         // eslint-disable-next-line no-await-in-loop
         await crawler
           .queue({
