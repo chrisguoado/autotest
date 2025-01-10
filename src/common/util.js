@@ -65,14 +65,14 @@ export async function click(
   }
 
   if (!waitForNavigation) {
-    // await (isHover ? el.hover() : el.evaluate((item) => item.click()));
-    await (isHover ? el.hover() : el.click());
+    await (isHover ? el.hover() : el.evaluate((item) => item.click()));
+    // await (isHover ? el.hover() : el.click());
   } else if (!isHover) {
     // hover has nothing to do with navigation
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'networkidle2' }),
-      // el.evaluate((item) => item.click()),
-      el.click(),
+      el.evaluate((item) => item.click()),
+      // el.click(),
     ]);
   } else {
     throw new Error('hover cannot work with waitForNavigation');
