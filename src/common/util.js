@@ -262,5 +262,6 @@ export default {
     topmost,
     dropdown,
     hover,
+    elClick,
   },
 };
