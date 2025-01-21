@@ -38,7 +38,8 @@ export async function click(
   selector,
   hint,
   waitForNavigation = false,
-  isHover = false
+  isHover = false,
+  elementHandleClick = false
 ) {
   let el;
 
@@ -47,6 +48,7 @@ export async function click(
     [el] = await query(el, selector);
   } else {
     if (arguments.length === 3) {
+      elementHandleClick = isHover;
       isHover = waitForNavigation;
       waitForNavigation = hint;
     }
@@ -65,14 +67,13 @@ export async function click(
   }
 
   if (!waitForNavigation) {
-    await (isHover ? el.hover() : el.evaluate((item) => item.click()));
-    // await (isHover ? el.hover() : el.click());
+    if (elementHandleClick) await (isHover ? el.hover() : el.click());
+    else await (isHover ? el.hover() : el.evaluate((item) => item.click()));
   } else if (!isHover) {
     // hover has nothing to do with navigation
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'networkidle2' }),
-      el.evaluate((item) => item.click()),
-      // el.click(),
+      elementHandleClick ? el.click() : el.evaluate((item) => item.click()),
     ]);
   } else {
     throw new Error('hover cannot work with waitForNavigation');
@@ -88,6 +89,24 @@ export async function click(
 
 export async function hover(page, selector, hint) {
   await click(page, selector, hint, false, true);
+}
+
+export async function elClick(
+  page,
+  selector,
+  hint,
+  waitForNavigation = false,
+  isHover = false,
+  elementHandleClick = true
+) {
+  await click(
+    page,
+    selector,
+    hint,
+    waitForNavigation,
+    isHover,
+    elementHandleClick
+  );
 }
 
 export async function input(page, selector, content, hint) {
@@ -193,13 +212,18 @@ export async function dropdown({
   hint,
   popup,
   item,
+  // eslint-disable-next-line no-shadow
+  elClick = false,
 } = {}) {
   if (!el) el = page;
 
   await click(
     el,
     select, // `xpath/.//span[contains(., '请选择')]`,
-    hint // `xpath/.//label[contains(., '关联故障码')]/following-sibling::div`
+    hint, // `xpath/.//label[contains(., '关联故障码')]/following-sibling::div`
+    false,
+    false,
+    elClick
   ).catch((e) => {
     throw new Error(`fail to navigate and click on select ${name}`);
   });
@@ -216,7 +240,11 @@ export async function dropdown({
     top,
     // `xpath/.//ul/li[1]`
     // `xpath/.//ul/li/span[contains(., '${config.faultCode}')]`
-    item
+    item,
+    undefined,
+    false,
+    false,
+    elClick
   ).catch((e) => {
     throw new Error(
       `failed to navigate and click on the specified item in dropdown ${name}`
