@@ -8,7 +8,8 @@
   "scripts": {
     "pack": "webpack --config ./build/webpack.config.js",
     "postpack": "node ./build/clean.js",
-    "build": "npm run pack && npm run postpack"
+    "build": "npm run pack && npm run postpack",
+    "recorder:convert": "node src/tools/recorder2case.js"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",

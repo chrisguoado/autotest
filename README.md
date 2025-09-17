@@ -196,6 +196,29 @@ Before debugging or modifying code in VSCode, please ensure the following two ex
 - [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
+### Generate cases from Chrome DevTools Recorder
+
+You can record a flow in Chrome and convert it into an autotest case automatically:
+
+1) In Chrome, open DevTools → Recorder → Record, perform your flow, then export as JSON.
+
+2) Convert the JSON to a case file:
+
+```
+npm run recorder:convert -- -i /absolute/path/to/recording.json -p my_project -n login_flow -s auto
+```
+
+- The generated case will be placed at `src/cases/<project>/<name>.js`.
+- `-u/--url` can override the entry URL if not detected.
+- The converter uses `this.utils.page.click/input/hover` and awaits navigation when recorded.
+- Build and run as usual:
+
+```
+npm run build
+cd dist
+node autotest.js -c cases/my_project/login_flow.js
+```
+
 ## License
 
 MIT
